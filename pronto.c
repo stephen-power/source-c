@@ -6,18 +6,76 @@ char testInArr[] = "+0,73,0,12,F,A,6,A,6,16,6,A,6,A,6,1C,6,16,6,A,6,A,6,16,6,16,
 unsigned int nbrCommas;		// on the atmega this number will be determined as the input stream is read. 
 char inputArr[500];		//this will hold what comes in from USART
 int inputArrLen;    //will be the number of chars loaded into the arrray (one bigger than the end index)
+int inputArr_maxIndex;
 int testInArrSize = sizeof(testInArr);
 
 unsigned int prontoIntArr[500];
-int prontoIntArr_size;
+unsigned int prontoIntArr_maxIndex;
+
  
 int main() {
     printf("charArray\n");
 	loadInputArray();
+	charArrToIntArr();
 	//printCharArray();
 	//simulateReadingFromUSART();
 
     return 0;
+}
+
+charArrToIntArr()
+{
+	printf("charArrToIntArr\n");
+
+/*	long n;
+//	char *str3 = "4a3d";
+  	char *str3;
+	str3 = "ff";
+	n=strtol (str3,NULL,16);
+    printf("The string %s as an integer is = %d\n",str3,n);
+
+	str3 = "0A";
+	n=strtol (str3,NULL,16);
+    printf("The string %s as an integer is = %d\n",str3,n);
+
+	char s1[] =  "000A";
+	n=strtol (s1,NULL,16);
+    printf("The string %s as an integer is = %d\n",s1,n);
+
+	unsigned long strLong;
+	unsigned int strInt;
+	s1[0] = '0';
+	s1[1] = '0';
+	s1[2] = 'F';
+	s1[3] = 'E';
+	strLong=strtol (s1,NULL,16);
+    printf("The string %s as a long is = %d\n",s1,strLong);
+*/
+	char s1[] = "0000";
+	unsigned int strInt;
+	int x;
+	for (x = 0; x < 4; x++) {s1[x] = '0';}	// zero the array	
+	s1[3] = 'F';
+	strInt = (unsigned int) strtol(s1,NULL,16);	// caste to an integer
+    printf("The string %s as an int is = %d\n",s1,strInt);
+
+	/* start reading the string array backwards and convert it to an integer array
+	   the input string contains commas and these will be used as delimiters
+	*/
+	printf("inputArr<%s>\n", inputArr); 	
+	printf("inputArrLen=%d\n", inputArrLen);
+	printf("inputArr_maxIndex=%d\n", inputArr_maxIndex);
+	printf("inputArr[0]=%c\n", inputArr[0]);
+	printf("inputArr[inputArr_maxIndex]=%c\n", inputArr[inputArr_maxIndex]);
+
+
+
+
+//	str3[0] = '0';
+//	str3[1] = '0';
+//	str3[2] = 'f';
+//	str3[3] = 'e';
+
 }
 
 loadInputArray()   // this function loads up the array as the USART would. removes '+' and '-'. Also counts the commas which is also the max index 
@@ -42,10 +100,12 @@ loadInputArray()   // this function loads up the array as the USART would. remov
 			i2++;
 			}
     }
+	inputArrLen = i2;	// one greater than the file index
+	inputArr_maxIndex = i2 - 1;	
 	printf("nbrCommas=%d\n", nbrCommas);   
     printf("inputArr<%s>\n", inputArr);
-
-    //printf("inputArrLen=%d\n", inputArrLen);
+ 	prontoIntArr_maxIndex = nbrCommas;
+   	printf("inputArrLen=%d\n", inputArrLen);
 /*	printf("<");
 	for (i = inSize; i > -1; i--) 	
 	{
