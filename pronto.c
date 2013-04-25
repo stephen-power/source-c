@@ -20,7 +20,7 @@ int main() {
     return 0;
 }
 
-loadInputArray()
+loadInputArray()   // this function loads up the array as the USART would. removes '+' and '-'. Also counts the commas which is also the max index 
 {
 	nbrCommas = 0;
 	printf("loadInputArray\n");
