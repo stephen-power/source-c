@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char testInArr[] = "+0,73,0,12,F,A,6,A,6,16,6,A,6,A,6,1C,6,16,6,A,6,A,6,16,6,16,6,10,6,16,6,A,6,A,6,A,6,10,6,E12-"; // simulate USART data in
+char testInArr[] = "+ff,73,0,12,F,A,6,A,6,16,6,A,6,A,6,1C,6,16,6,A,6,A,6,16,6,16,6,10,6,16,6,A,6,A,6,A,6,10,6,E12-"; // simulate USART data in
 unsigned int nbrCommas;		// on the atmega this number will be determined as the input stream is read. 
 char inputArr[500];		//this will hold what comes in from USART
 int inputArrLen;    //will be the number of chars loaded into the arrray (one bigger than the end index)
@@ -27,30 +27,6 @@ charArrToIntArr()
 {
 	printf("charArrToIntArr\n");
 
-/*	long n;
-//	char *str3 = "4a3d";
-  	char *str3;
-	str3 = "ff";
-	n=strtol (str3,NULL,16);
-    printf("The string %s as an integer is = %d\n",str3,n);
-
-	str3 = "0A";
-	n=strtol (str3,NULL,16);
-    printf("The string %s as an integer is = %d\n",str3,n);
-
-	char s1[] =  "000A";
-	n=strtol (s1,NULL,16);
-    printf("The string %s as an integer is = %d\n",s1,n);
-
-	unsigned long strLong;
-	unsigned int strInt;
-	s1[0] = '0';
-	s1[1] = '0';
-	s1[2] = 'F';
-	s1[3] = 'E';
-	strLong=strtol (s1,NULL,16);
-    printf("The string %s as a long is = %d\n",s1,strLong);
-*/
 	char s1[] = "0000";
 	unsigned int strInt;
 	int x;
@@ -67,14 +43,44 @@ charArrToIntArr()
 	printf("inputArr_maxIndex=%d\n", inputArr_maxIndex);
 	printf("inputArr[0]=%c\n", inputArr[0]);
 	printf("inputArr[inputArr_maxIndex]=%c\n", inputArr[inputArr_maxIndex]);
+	
+	for (x = 0; x < 4; x++) {s1[x] = '0';}	// zero the array	
 
+	int int_idx = nbrCommas;
+	long temp;
+	int s1_idx =3 ;	// start at the end
+	int idx;
+	for (idx = inputArr_maxIndex; idx > - 1; idx--)
+	{
+		//printf("%c", inputArr[idx]);
+		if(inputArr[idx] != ',')
+		{
+			s1[s1_idx] = inputArr[idx];     //place in small(4) char array for later conversion
+		}
+		s1_idx--;
+		if (inputArr[idx] == ',')
+	 	{
+      	 	temp=strtol (s1,NULL,16);		//convert the char array to a long
+			prontoIntArr[int_idx] = temp;
+			int_idx--;
+			printf("convert str=%s to int=%d\n", s1, temp);
+			for (x = 0; x < 4; x++) {s1[x] = '0';}	// zero the array
+			s1_idx = 3;		// reset the index			
+			//break;
+		}
+	}
+	
+	temp=strtol (s1,NULL,16);       //IMPORTANT get the last one
+	prontoIntArr[int_idx] = temp;
+	printf("convert str=%s to int=%d\n", s1, temp);
+	printf("\n");
 
-
-
-//	str3[0] = '0';
-//	str3[1] = '0';
-//	str3[2] = 'f';
-//	str3[3] = 'e';
+	//dump the results
+	for	(int_idx = 0; int_idx < nbrCommas + 1; int_idx++)
+	{
+		printf("index=%d,   value=%d\n", int_idx, prontoIntArr[int_idx]);
+	}
+	
 
 }
 
@@ -95,9 +101,9 @@ loadInputArray()   // this function loads up the array as the USART would. remov
 		if (testInArr[i] == '+' || testInArr[i] == '-'); //drop these
 		else
 			{
-			inputArr[i2] = testInArr[i];
-			if (inputArr[i2] == ',') nbrCommas++;
-			i2++;
+				inputArr[i2] = testInArr[i];
+				if (inputArr[i2] == ',') nbrCommas++;
+				i2++;
 			}
     }
 	inputArrLen = i2;	// one greater than the file index
