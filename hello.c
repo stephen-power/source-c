@@ -1,4 +1,4 @@
-//gcc hello.c -o hello
+//gcc hello.c -o ./bin/hello
 #include <stdio.h>
 
 int main() {
