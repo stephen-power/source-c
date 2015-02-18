@@ -8,9 +8,9 @@ int main() {
     printf("---bitOperations start---\n");
 
 	unsigned char testByte = 'a';
-	printCharToBinaryString (testByte);
+//	printCharToBinaryString (testByte);
 	
-	int bitNumber = 1;
+	int bitNumber = 3;
 	isBitOn(bitNumber, 	testByte);
 
 
@@ -22,27 +22,27 @@ bool isBitOn (int bitNumberToTest, unsigned char inByte){
 	printf("-isBitOn\n");	
 	// bits are numbered right to left decending starting from 8.  e.g  8->1 
 	printf("bitNumberToTest=%d    inByte=%x\n", bitNumberToTest, inByte);	
+	printCharToBinaryString (inByte);
+	
+	int x;
+	unsigned char mask = 0b00000001;
 
-
+	for(x = 1; x != bitNumberToTest; x++){  // shift the "on" bit to the correct postion
+			printf("x=%d\n",x);
+	}
+	
 	return true;
 }
 
 void printCharToBinaryString (char charIn){
 	printf("-printCharToBinaryString\n");	
-	printf("charIn=%x\n", charIn);	
-	
 	int onOff = 0;
 	unsigned char mask = 0b10000000;
-	printf("mask=%x\n", mask);	
-	
-	onOff = mask & charIn;
-	printf("\n");	
 	
 	int x;
 	for (x = 8; x > 0; x--){
 		if (x == 4){printf(" ");}	
-		onOff = mask & charIn;
-		if (onOff == 0){
+		if ((mask & charIn) == 0){
 			printf("0");	
 		}
 		else {
