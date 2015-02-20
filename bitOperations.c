@@ -4,14 +4,14 @@
 //******************************************************************************
 //  GLOBAL VARIABLES                                                           *
 //******************************************************************************
-char tapsOnAsString[3] = "x,x";   // length 3.  e.g "2,6" or "5  " or "   "
+char pinsOnAsString[3] = "x,x";   // length 3.  e.g "2,6" or "5  " or "   "
 
 //******************************************************************************
 //  FUNCTION DEFINITIONS                                                       *
 //******************************************************************************
 bool isBitOn (int, unsigned char);
 void printCharToBinaryString (char);
-void setTapsOnAsString(unsigned char);
+void setPinsOnAsString(unsigned char);
 
 //******************************************************************************
 //  MAIN                                                                       *
@@ -26,9 +26,9 @@ int main() {
 	printf(bitTest ? "true" : "false");
 	printf("\n");
 
-	tapsOnAsString[2] = 'y';
-	printf("tapsOnAsString=%s\n", tapsOnAsString);
-	setTapsOnAsString(testByte);
+	pinsOnAsString[2] = 'y';
+	printf("pinsOnAsString=%s\n", pinsOnAsString);
+	setPinsOnAsString(testByte);
 
 
     return 0;
@@ -36,11 +36,11 @@ int main() {
 //******************************************************************************
 //  FUNCTIONS                                                                  *
 //******************************************************************************
-void setTapsOnAsString(unsigned char inByte){
-	int tapsOnAsStringIDX = 0;
-	tapsOnAsString[0] = ' ';
-	tapsOnAsString[1] = ' ';
-	tapsOnAsString[2] = ' ';
+void setPinsOnAsString(unsigned char inByte){
+	int pinsOnAsStringIDX = 0;
+	pinsOnAsString[0] = ' ';
+	pinsOnAsString[1] = ' ';
+	pinsOnAsString[2] = ' ';
 
 	int bitPosition;
 	for(bitPosition = 1; bitPosition < 7; bitPosition++){  // only look at the first 6 bits
